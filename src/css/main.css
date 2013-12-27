@@ -1,0 +1,19 @@
+html {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+#canvas {
+    /* Center Middle */
+    position: absolute;
+    left: 50%;
+    margin-left: -240px;
+    
+    width: 480px;
+    height: 320px;
+}
