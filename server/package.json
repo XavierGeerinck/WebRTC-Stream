@@ -1,0 +1,17 @@
+{
+  "name": "server",
+  "version": "0.1.0",
+  "description": "WebRTC-Streaming",
+  "private": true,
+  "main": "app.js",
+  "engines": {
+    "node": ">=0.10.5"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "author": "Xavier Geerinck",
+  "dependencies": {
+    "hapi": "~2.1.1"
+  }
+}

@@ -1,0 +1,11 @@
+{
+     "server": {
+        "port": 8000,
+        "ip": "127.0.0.1",
+        "url": "http://webrtc.api.localhost.com",
+        "cors_client_origins": [ "http://webrtc.localhost.com" ],
+        "cors_headers": [ "Authorization", "Content-Type", "If-None-Match", "Bearer" ],
+        "cors_methods": [ "GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS" ],
+        "cors_credentials": true
+    }
+}
