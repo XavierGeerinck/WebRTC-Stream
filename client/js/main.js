@@ -13,7 +13,17 @@ var width 	   = screen.availWidth;
 var height 	   = screen.availHeight;
 var imageObj   = new Image();    
 
+var video_constraints = {
+    mandatory: { chromeMediaSource: 'screen' },
+    optional: []
+};
+
 window.onload = function() {
+    var screen = new Screen('DAWDWADWADWA');
+    screen.onaddscream = function (e) {
+        document.body.appendChild(e.video);    
+    };
+    screen.share();
     // Start webcam + overlay
     initWebcam();
     initOverlay();
@@ -42,6 +52,10 @@ function renderOverlay() {
     //var data = canvas.toDataURL('image/png');
 };
 
+function renderScreenShare() {
+    
+};
+
 
 function initWebcam() {
     // Get usermedia
@@ -53,7 +67,7 @@ function initWebcam() {
     // Get webcam
     navigator.getMedia(
 	    {
-	      video: true,
+	      video: video_constraints,
 	      audio: false
 	    },
 	    function(stream) {
