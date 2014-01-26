@@ -13,7 +13,7 @@ var renderer = new Renderer(canvas);
 renderer.start();
 
 function addWebcam() {
-    renderer.add(new Webcam(0, 0, 480, 320));
+    renderer.add(new Webcam(1040, 680, 320, 240));
 }
 
 function addOverlay() {
