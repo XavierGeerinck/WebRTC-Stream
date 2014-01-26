@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="keywords" content="JavaScript, WebRTC" />
+    <meta name="description" content="WebRTC codelab" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1">
+
+    <title>SocketStreamer</title>
+    <link rel="stylesheet" href="./css/main.css" type="text/css"></link>
+</head>
+
+<body>
+    <div id="actions">
+        <button onclick="receive()">receive()</button>
+    </div>
+    
+	<canvas id="canvas"></canvas>
+<video />
+
+<!-- JavaScript will go here -->
+<script type="text/javascript" src="./js/lib/socket.io.min.js"></script>
+<script type="text/javascript">
+    function receive() {
+        console.log('receive');
+        var socket = io.connect('http://webrtc.api.localhost.com');
+        socket.on('stream', function (data) {
+            var canvas = document.querySelector('#canvas');
+            var image = new Image();
+            image.src = data.image.image;
+            image.onload = function () {
+                canvas.getContext('2d').drawImage(image, 0, 0, canvas.width, canvas.height);
+            } 
+        });
+    }
+</script>
+
+</body>
+
+</html>

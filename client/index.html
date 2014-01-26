@@ -12,6 +12,8 @@
 
 <body>
     <div id="actions">
+        <button onclick="startStreaming()">startStreaming()</button>
+        <button onclick="stopStreaming()">stopStreaming()</button>
         <button onclick="stop()">stop()</button>
         <button onclick="addWebcam()">addWebcam()</button>
         <button onclick="addOverlay()">addOverlay()</button>
@@ -23,6 +25,7 @@
 <video />
 
 <!-- JavaScript will go here -->
+<script type="text/javascript" src="./js/lib/socket.io.min.js"></script>
 <script type="text/javascript" src="./js/lib/stats.min.js"></script>
 <script type="text/javascript" src="./js/lib/screen.js"></script>
 <script type="text/javascript" src="./js/renderer.js"></script>

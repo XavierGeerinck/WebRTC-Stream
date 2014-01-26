@@ -1,8 +1,9 @@
-var Renderer = function (canvas) 
-    this.socket = io.connect('http://webrtc.api.localhost.com/socket');
+var Renderer = function (canvas) {
+    this.socket = null;
+    this.isStarted = false;
+    this.isStreaming = false;
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
-    this.started = false;
     this.renderList = [];
     
     // Add FPS counter
@@ -29,10 +30,20 @@ Renderer.prototype.add = function (renderObject) {
 
 Renderer.prototype.start = function () {
     // Set started
-    this.started = true;
+    this.isStarted = true;
     
     // Start looping
     this.loop();
+};
+
+Renderer.prototype.startStreaming = function () {
+    this.isStreaming = true;
+    this.socket = io.connect('http://webrtc.api.localhost.com');
+};
+
+Renderer.prototype.stopStreaming = function () {
+    this.isStreaming = false;
+    this.socket = null;
 };
 
 Renderer.prototype.loop = function () {
@@ -49,22 +60,27 @@ Renderer.prototype.loop = function () {
     // Stop counting fps
     this.stats.end();
     
+    // If is streaming, broadcast
+    if (this.isStreaming) {
+        this.sendToSocket();    
+    }
+    
     // Repeat while started
-    if (this.started) {
+    if (this.isStarted) {
         requestAnimationFrame(this.loop.bind(this));
     }
 };
 
 Renderer.prototype.sendToSocket = function () {
     // Get image data
-    var data = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+    var image = this.canvas.toDataURL('image/webp');
     
     // Send image data over socket to server
-    socket.emit('stream', { image: data });
+    this.socket.emit('stream', { image: image });
 };
 
 Renderer.prototype.stop = function () {
-    this.started = false;
+    this.isStarted = false;
     
     for (var i in this.renderList) {
         if (this.renderList[i].onDestroy) {

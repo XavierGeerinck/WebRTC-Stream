@@ -39,3 +39,11 @@ function addLeagueOfLegends2Overlay() {
 function stop() {
     renderer.stop();
 }
+
+function startStreaming() {
+    renderer.startStreaming();
+}
+
+function stopStreaming() {
+    renderer.stopStreaming();
+}

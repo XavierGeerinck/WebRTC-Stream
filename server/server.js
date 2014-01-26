@@ -19,12 +19,12 @@ if (!fs.existsSync('./logs')) {
 
 // Create server object
 var server = new Hapi.Server('0.0.0.0', config.server.port, {
-    cors: {
-        origin:  config.server.cors_client_origins,
-        headers: config.server.cors_headers,
-        methods: config.server.cors_methods,
-        credentials: config.server.cors_credentials
-    }
+//    cors: {
+//        origin:  config.server.cors_client_origins,
+//        headers: config.server.cors_headers,
+//        methods: config.server.cors_methods,
+//        credentials: config.server.cors_credentials
+//    }
 });
 
 // Starts the API Server

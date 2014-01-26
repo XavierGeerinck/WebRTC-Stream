@@ -1,6 +1,8 @@
 var SocketIO    = require('socket.io');
 var fs          = require('fs');
 
+var clients = [];
+
 // Start the socket server
 function start(server) {
     var io = SocketIO.listen(server.listener);
@@ -13,11 +15,13 @@ function start(server) {
     // Listen on WS:// Connections
     io.sockets.on('connection', function (socket) {
         console.log('Incoming connection');
-    });
-    
-    // When we get stream data
-    io.sockets.on('stream', function (data) {
-        console.log('data received');
+        clients.push(socket);
+                    
+        // When we get stream data
+        socket.on('stream', function (data) {
+            console.log('broadcast');
+            socket.broadcast.emit('stream', { image: data });
+        });
     });
 };
 
