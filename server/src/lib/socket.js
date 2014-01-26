@@ -14,12 +14,10 @@ function start(server) {
     
     // Listen on WS:// Connections
     io.sockets.on('connection', function (socket) {
-        console.log('Incoming connection');
         clients.push(socket);
                     
         // When we get stream data
         socket.on('stream', function (data) {
-            console.log('broadcast');
             socket.broadcast.emit('stream', { image: data });
         });
     });

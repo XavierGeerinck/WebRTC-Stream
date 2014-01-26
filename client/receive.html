@@ -26,11 +26,20 @@
         var socket = io.connect('http://webrtc.api.localhost.com');
         socket.on('stream', function (data) {
             var canvas = document.querySelector('#canvas');
-            var image = new Image();
-            image.src = data.image.image;
-            image.onload = function () {
-                canvas.getContext('2d').drawImage(image, 0, 0, canvas.width, canvas.height);
-            } 
+            var context = canvas.getContext('2d');
+            
+            // Decode
+            var bytes = new Uint8Array(data);
+            
+            var image = context.createImageData(canvas.width, canvas.height);
+            for (var i=0; i<bytes.length; i++) {
+                image.data[i] = bytes[i];
+            }
+            
+            //console.log(image);
+            
+            // Draw
+            context.drawImage(image, 0, 0);
         });
     }
 </script>

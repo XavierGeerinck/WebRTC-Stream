@@ -73,10 +73,17 @@ Renderer.prototype.loop = function () {
 
 Renderer.prototype.sendToSocket = function () {
     // Get image data
-    var image = this.canvas.toDataURL('image/webp');
+   // var image = this.canvas.toDataURL('image/webp');
+    
+    var image = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+    var buffer = new ArrayBuffer(image.data.length);
+    var bytes = new Uint8Array(buffer);
+    for (var i=0; i< bytes.length; i++) {
+        bytes[i] = image.data[i];
+    }
     
     // Send image data over socket to server
-    this.socket.emit('stream', { image: image });
+    this.socket.emit('stream', buffer);
 };
 
 Renderer.prototype.stop = function () {
