@@ -5,8 +5,14 @@ canvas.width = 1600;
 canvas.height = 900;
 
 // Black background
-canvas.getContext('2d').fillStyle = "#000000";
-canvas.getContext('2d').fillRect(0, 0, screen.availWidth, screen.availHeight);
+var backgroundImage = new Image();
+backgroundImage.src = 'img/background.png';
+backgroundImage.onload = function () {
+    canvas.getContext('2d').drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+}
+//canvas.getContext('2d').fillStyle = "#000000";
+//canvas.getContext('2d').fillRect(0, 0, canvas.width, canvas.height);
+
 
 // Add renderer + webcam + overlay
 var renderer = new Renderer(canvas);
@@ -19,13 +25,17 @@ function addWebcam() {
 function addOverlay() {
     var x = Math.round(Math.random() * canvas.width);
     var y = Math.round(Math.random() * canvas.height);
-    renderer.add(new Overlay('img/cat.png', x, y, 100, 100));
+    renderer.add(new Overlay('img/overlays/cat.png', x, y, 100, 100));
 }
 
 function addLeagueOfLegends1Overlay() {
-    renderer.add(new Overlay('img/league_of_legends_1.png', 0, 0, canvas.width, canvas.height));
+    renderer.add(new Overlay('img/overlays/league_of_legends_1.png', 0, 0, canvas.width, canvas.height));
 }
 
 function addLeagueOfLegends2Overlay() {
-    renderer.add(new Overlay('img/league_of_legends_2.png', 0, 0, canvas.width, canvas.height));
+    renderer.add(new Overlay('img/overlays/league_of_legends_2.png', 0, 0, canvas.width, canvas.height));
+}
+
+function stop() {
+    renderer.stop();
 }

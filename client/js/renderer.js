@@ -1,4 +1,5 @@
-var Renderer = function (canvas) {
+var Renderer = function (canvas) 
+    this.socket = io.connect('http://webrtc.api.localhost.com/socket');
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
     this.started = false;
@@ -52,6 +53,14 @@ Renderer.prototype.loop = function () {
     if (this.started) {
         requestAnimationFrame(this.loop.bind(this));
     }
+};
+
+Renderer.prototype.sendToSocket = function () {
+    // Get image data
+    var data = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+    
+    // Send image data over socket to server
+    socket.emit('stream', { image: data });
 };
 
 Renderer.prototype.stop = function () {

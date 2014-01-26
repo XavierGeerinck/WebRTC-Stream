@@ -12,6 +12,7 @@
   },
   "author": "Xavier Geerinck",
   "dependencies": {
-    "hapi": "~2.1.1"
+    "hapi": "~2.1.1",
+    "socket.io": "~0.9.16"
   }
 }

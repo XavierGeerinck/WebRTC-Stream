@@ -29,8 +29,8 @@ Webcam.prototype.onInit = function() {
  */
 Webcam.prototype.onDestroy = function () {
     this.video = document.createElement('video');
-    this.video.setAttribute('width', width);
-    this.video.setAttribute('height', height);
+    this.video.setAttribute('width', this.width);
+    this.video.setAttribute('height', this.height);
 };
 
 /**

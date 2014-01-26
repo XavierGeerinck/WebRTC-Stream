@@ -3,6 +3,9 @@
 var Hapi                    = require('hapi');
 var fs                      = require('fs');
 
+// Socket Handler
+var socket                  = require('./src/lib/socket');
+
 // ROUTES
 var V1StreamApi               = require('./src/routes/v1/stream');
 
@@ -36,7 +39,13 @@ function start(callback) {
     });
 };
 
+function startSocketListener(callback) {
+    socket.start(server);
+    callback();
+};
+
 module.exports = {
     start: start,
+    startSocketListener: startSocketListener,
     server: server
 };
