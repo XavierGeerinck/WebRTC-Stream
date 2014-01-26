@@ -1,8 +1,8 @@
 var canvas = document.querySelector('#canvas');
 
 // Set canvas 1024 * 768
-canvas.width = 1024;
-canvas.height = 768;
+canvas.width = 1600;
+canvas.height = 900;
 
 // Black background
 canvas.getContext('2d').fillStyle = "#000000";
@@ -20,4 +20,12 @@ function addOverlay() {
     var x = Math.round(Math.random() * canvas.width);
     var y = Math.round(Math.random() * canvas.height);
     renderer.add(new Overlay('img/cat.png', x, y, 100, 100));
+}
+
+function addLeagueOfLegends1Overlay() {
+    renderer.add(new Overlay('img/league_of_legends_1.png', 0, 0, canvas.width, canvas.height));
+}
+
+function addLeagueOfLegends2Overlay() {
+    renderer.add(new Overlay('img/league_of_legends_2.png', 0, 0, canvas.width, canvas.height));
 }
