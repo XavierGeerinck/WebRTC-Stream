@@ -22,24 +22,37 @@
 <script type="text/javascript" src="./js/lib/socket.io.min.js"></script>
 <script type="text/javascript">
     function receive() {
-        console.log('receive');
+        var canvas = document.querySelector('#canvas');
+        canvas.height = 1080;
+        canvas.width = 1920;
+        var context = canvas.getContext('2d');
+        
         var socket = io.connect('http://webrtc.api.localhost.com');
         socket.on('stream', function (data) {
-            var canvas = document.querySelector('#canvas');
-            var context = canvas.getContext('2d');
-            
-            // Decode
-            var bytes = new Uint8Array(data);
-            
+            var bytes = new Uint8Array(data.image);
             var image = context.createImageData(canvas.width, canvas.height);
             for (var i=0; i<bytes.length; i++) {
                 image.data[i] = bytes[i];
             }
+            context.putImageData(image, 0, 0);
+            
+            // Decode
+//            var bytes = new Uint8Array(data);
+//            
+//            var image = context.createImageData(canvas.width, canvas.height);
+//            for (var i=0; i<bytes.length; i++) {
+//                image.data[i] = bytes[i];
+//            }
             
             //console.log(image);
             
             // Draw
-            context.drawImage(image, 0, 0);
+//            var imageObj = new Image();
+//            imageObj.src = data.image.image;
+//            imageObj.onload = function() {
+//                context.drawImage(this, 0, 0);
+//            };
+            //context.putImageData(data.image, 0, 0);
         });
     }
 </script>

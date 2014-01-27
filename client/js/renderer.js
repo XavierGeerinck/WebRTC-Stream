@@ -73,17 +73,24 @@ Renderer.prototype.loop = function () {
 
 Renderer.prototype.sendToSocket = function () {
     // Get image data
-   // var image = this.canvas.toDataURL('image/webp');
+    //var quality = 0.8;
+    //var image = this.canvas.toDataURL('image/jpeg', quality);
     
-    var image = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
-    var buffer = new ArrayBuffer(image.data.length);
-    var bytes = new Uint8Array(buffer);
-    for (var i=0; i< bytes.length; i++) {
-        bytes[i] = image.data[i];
+//    var image = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+//    var buffer = new ArrayBuffer(image.data.length);
+//    var bytes = new Uint8Array(buffer);
+//    for (var i=0; i< bytes.length; i++) {
+//        bytes[i] = image.data[i];
+//    }
+//    
+    var imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+    var binary = new Uint8Array(imageData.data.length);
+    for (var i = 0; i < imageData.data.length; i++) {
+      binary[i] = imageData.data[i];
     }
     
-    // Send image data over socket to server
-    this.socket.emit('stream', buffer);
+    // We can improve speed by stripping the alpha values from this array!
+    this.socket.emit('stream', binary.buffer);
 };
 
 Renderer.prototype.stop = function () {
