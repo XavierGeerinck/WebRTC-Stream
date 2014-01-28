@@ -14,7 +14,7 @@ backgroundImage.onload = function () {
 //canvas.getContext('2d').fillRect(0, 0, canvas.width, canvas.height);
 
 
-// Add renderer + webcam + overlay
+// Add renderer + webcam + overlay 
 var renderer = new Renderer(canvas);
 renderer.start();
 
