@@ -1,5 +1,5 @@
 var Renderer = function (canvas) {
-    this.socket = null;
+    this.socket = new Socket('http://webrtc.api.localhost.com');
     this.isStarted = false;
     this.isStreaming = false;
     this.canvas = canvas;
@@ -38,7 +38,7 @@ Renderer.prototype.start = function () {
 
 Renderer.prototype.startStreaming = function () {
     this.isStreaming = true;
-    this.socket = io.connect('http://webrtc.api.localhost.com');
+    this.socket = this.socket.connect();
 };
 
 Renderer.prototype.stopStreaming = function () {
@@ -90,7 +90,7 @@ Renderer.prototype.sendToSocket = function () {
     }
     
     // We can improve speed by stripping the alpha values from this array!
-    this.socket.emit('stream', binary.buffer);
+    this.socket.send('stream', binary.buffer);
 };
 
 Renderer.prototype.stop = function () {

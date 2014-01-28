@@ -1,8 +1,8 @@
 var canvas = document.querySelector('#canvas');
 
 // Set canvas 1024 * 768
-canvas.width = 1600;
-canvas.height = 900;
+canvas.width = screen.availWidth / 1.5;
+canvas.height = screen.availHeight / 1.5;
 
 // Black background
 var backgroundImage = new Image();
@@ -19,7 +19,10 @@ var renderer = new Renderer(canvas);
 renderer.start();
 
 function addWebcam() {
-    renderer.add(new Webcam(1040, 680, 320, 240));
+    var webcamWidth = 250; // 320
+    var webcamHeight = 187; // 240
+        
+    renderer.add(new Webcam(canvas.width - (webcamWidth + 130), canvas.height - webcamHeight, webcamWidth, webcamHeight));
 }
 
 function addOverlay() {
