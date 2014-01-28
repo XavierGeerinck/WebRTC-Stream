@@ -1,5 +1,5 @@
 var Renderer = function (canvas) {
-    this.socket = new Socket('http://webrtc.api.localhost.com');
+    this.socket = new Socket();
     this.isStarted = false;
     this.isStreaming = false;
     this.canvas = canvas;
@@ -38,7 +38,8 @@ Renderer.prototype.start = function () {
 
 Renderer.prototype.startStreaming = function () {
     this.isStreaming = true;
-    this.socket = this.socket.connect();
+    this.socket = new Socket();
+    this.socket.connect();
 };
 
 Renderer.prototype.stopStreaming = function () {
@@ -73,8 +74,8 @@ Renderer.prototype.loop = function () {
 
 Renderer.prototype.sendToSocket = function () {
     // Get image data
-    //var quality = 0.8;
-    //var image = this.canvas.toDataURL('image/jpeg', quality);
+    var quality = 0.8;
+    var image = this.canvas.toDataURL('image/webp', quality);
     
 //    var image = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
 //    var buffer = new ArrayBuffer(image.data.length);
@@ -83,14 +84,14 @@ Renderer.prototype.sendToSocket = function () {
 //        bytes[i] = image.data[i];
 //    }
 //    
-    var imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
-    var binary = new Uint8Array(imageData.data.length);
-    for (var i = 0; i < imageData.data.length; i++) {
-      binary[i] = imageData.data[i];
-    }
+//    var imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+//    var binary = new Uint8Array(imageData.data.length);
+//    for (var i = 0; i < imageData.data.length; i++) {
+//      binary[i] = imageData.data[i];
+//    }
     
     // We can improve speed by stripping the alpha values from this array!
-    this.socket.send('stream', binary.buffer);
+    this.socket.send('stream', image);
 };
 
 Renderer.prototype.stop = function () {
