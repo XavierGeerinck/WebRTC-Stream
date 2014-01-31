@@ -1,67 +1,128 @@
 var Socket = function () {
-    this.servers = { "iceServers": [{ "url": "stun:stun.l.google.com:19302" }] };
+    //this.servers = { "iceServers": [{ "url": "stun:stun.l.google.com:19302" }] };
+    this.servers = null;
     this.ready = false;
+    
+    this.localPeerConnection = new webkitRTCPeerConnection(this.servers,
+        {
+            optional: [
+                {
+                    RtpDataChannels: true
+                }
+            ]
+        });
+    
+    this.remotePeerConnection = new webkitRTCPeerConnection(this.servers,
+        {
+            optional: [
+                {
+                    RtpDataChannels: true
+                }
+            ]
+        });
+    
+    this.sendChannel = null;
+    this.receiveChannel = null;
 };
+
+Socket.prototype.trace = function (text) {
+    console.log((performance.now() / 1000).toFixed(3) + ": " + text);
+}
 
 Socket.prototype.connect = function () {
-    var self = this;
-    
-    this.localPeerConnection = new webkitRTCPeerConnection(this.servers, {
-        optional: [
-            {
-                RtpDataChannels: true
-            }
-        ]
-    });
-    
-    console.log('Created Local Peer Channel');
-    
-    this.localPeerConnection.ondatachannel = function (event) {
-        self.receiveChannel = event.channel;
-        self.receiveChannel.onmessage = function (event) {
-            console.log(event.data);    
-        };
-    }
+    this.trace('Created local peer connection object localPeerConnection');
     
     try {
-        this.sendChannel = this.localPeerConnection.createDataChannel('sendDataChannel', { reliable: false });
-        console.log('Created Send Data Channel');
+        // Reliable Data Channels not yet supported in Chrome
+        this.sendChannel = this.localPeerConnection.createDataChannel("sendDataChannel",
+            {
+                reliable: false
+            });
+        
+        this.trace('Created send data channel');
+        
     } catch (e) {
-        console.log('Exception when creating send channel: ' + e.message);    
+        alert('Failed to create data channel. You need Chrome M25 or later with RtpDataChannel enabled');
+        this.trace('createDataChannel() failed with exception: ' + e.message);
     }
     
-    this.localPeerConnection.onicecandidate = this.gotLocalCandidate;
-    this.sendChannel.onopen = this.handleSendChannelStateChange;
-    this.sendChannel.onclose = this.handleSendChannelStateChange;
-};
+    this.localPeerConnection.onicecandidate = this.gotLocalCandidate.bind(this);
+    this.sendChannel.onopen = this.handleSendChannelStateChange.bind(this);
+    this.sendChannel.onclose = this.handleSendChannelStateChange.bind(this);
+    
+    this.trace('Created remote peer connection object remotePeerConnection');
+    
+    this.remotePeerConnection.onicecandidate = this.gotRemoteIceCandidate.bind(this);
+    this.remotePeerConnection.ondatachannel = this.gotReceiveChannel.bind(this);
+    
+    this.localPeerConnection.createOffer(this.gotLocalDescription.bind(this));
+}
 
-Socket.prototype.disconnect = function () {
-    this.connection = null;
-};
+Socket.prototype.send = function (data) {
+    this.sendChannel.send(data);
+    this.trace('Sent data: ' + data);
+}
 
-Socket.prototype.send = function (key, data) {
-    console.log('Trying to send'); // TODO: Catch this, then timeout for 5s
-    if (this.ready) {
-        console.log('Send Msg');
-        this.sendChannel.send(data);
+Socket.prototype.closeDataChannels = function () {
+    this.trace('Closing data channels');
+    this.sendChannel.close();
+    this.trace('Closed data channel with label: ' + this.sendChannel.label);
+    this.receiveChannel.close();
+    this.trace('Closed data channel with label: ' + this.receiveChannel.label);
+    this.localPeerConnection.close();
+    this.remotePeerConnection.close();
+    this.localPeerConnection = null;
+    this.remotePeerConnection = null;
+    this.trace('Closed peer connections');
+}
+
+Socket.prototype.gotLocalDescription = function (desc) {
+    this.localPeerConnection.setLocalDescription(desc);
+    this.trace('Offer from localPeerConnection \n' + desc.sdp);
+    this.remotePeerConnection.setRemoteDescription(desc);
+    this.remotePeerConnection.createAnswer(this.gotRemoteDescription.bind(this));
+}
+
+Socket.prototype.gotRemoteDescription = function (desc) {
+    this.remotePeerConnection.setLocalDescription(desc);
+    this.trace('Answer from remotePeerConnection \n' + desc.sdp);
+    this.localPeerConnection.setRemoteDescription(desc);
+}
+
+Socket.prototype.gotLocalCandidate = function (event) {
+    this.trace('local ice callback');
+    if (event.candidate) {
+        this.remotePeerConnection.addIceCandidate(event.candidate);
+        this.trace('Local ICE candidate: \n' + event.candidate.candidate);
     }
-};
+}
+
+Socket.prototype.gotRemoteIceCandidate = function (event) {
+    this.trace('remote ice callback');
+    if (event.candidate) {
+        this.localPeerConnection.addIceCandidate(event.candidate);
+        this.trace('Remote ICE candidate: \n ' + event.candidate.candidate);
+    }
+}
+
+Socket.prototype.gotReceiveChannel = function (event) {
+  this.trace('Receive Channel Callback');
+  this.receiveChannel = event.channel;
+  this.receiveChannel.onmessage = this.handleMessage.bind(this);
+  this.receiveChannel.onopen = this.handleReceiveChannelStateChange.bind(this);
+  this.receiveChannel.onclose = this.handleReceiveChannelStateChange.bind(this);
+}
+
+Socket.prototype.handleMessage = function (event) {
+    this.trace('Received message: ' + event.data);
+}
 
 Socket.prototype.handleSendChannelStateChange = function () {
     var readyState = this.sendChannel.readyState;
-    console.log('Send Channel State: ' + readyState);
-    
-    if (readyState == 'open') {
-        this.ready = true;    
-    } else {
-        this.ready = false;    
-    }
-};
+    this.trace('Send channel state is: ' + readyState);
+}
 
-Socket.prototype.gotLocalCandidate = function () {
-    console.log('Remote ICE Callback');
-    if (event.candidate) {
-        this.localPeerConnection.addIceCandidate(event.candidate);
-        console.log('Local ICE candidate: \n' + event.candidate.candidate);
-    }
-};
+Socket.prototype.handleReceiveChannelStateChange = function () {
+    var readyState = this.receiveChannel.readyState;
+    this.trace('Receive channel state is: ' + readyState);
+}
