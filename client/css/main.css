@@ -8,19 +8,17 @@ body {
     margin: 0;
 }
 
-#canvas {
-    /* Center Middle */
-    position: absolute;
-    left: 250px;
+#interface {
+    margin-left: 250px;
 }
 
 #actions {
     position: absolute;
     left: 0;
     top: 50%;
-    margin-top: -250px;
+    margin-top: -200px;
     
-    height: 500px;
+    height: 300px;
     width: 200px;
     background-color: black;
 }

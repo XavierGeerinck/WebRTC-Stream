@@ -5,18 +5,22 @@ var receiveCanvas = document.querySelector('#receiveCanvas');
 sendCanvas.width = screen.availWidth / 2.5;
 sendCanvas.height = screen.availHeight / 2.5;
 
+receiveCanvas.width = screen.availWidth / 2.5;
+receiveCanvas.height = screen.availHeight / 2.5;
+
 // Black background
 var backgroundImage = new Image();
 backgroundImage.src = 'img/background.png';
 backgroundImage.onload = function () {
     sendCanvas.getContext('2d').drawImage(backgroundImage, 0, 0, sendCanvas.width, sendCanvas.height);
 }
-//canvas.getContext('2d').fillStyle = "#000000";
-//canvas.getContext('2d').fillRect(0, 0, canvas.width, canvas.height);
+
+receiveCanvas.getContext('2d').fillStyle = "#000000";
+receiveCanvas.getContext('2d').fillRect(0, 0, receiveCanvas.width, receiveCanvas.height);
 
 
 // Add renderer + webcam + overlay 
-var renderer = new Renderer(canvas);
+var renderer = new Renderer(sendCanvas);
 renderer.start();
 
 function addWebcam() {

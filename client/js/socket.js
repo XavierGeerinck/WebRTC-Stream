@@ -1,3 +1,8 @@
+/**
+ * SCTP is needed for binary files, it works on the following browsers:
+ * - Chrome version: >= 31
+ * - Firefox
+ */
 var Socket = function () {
     //this.servers = { "iceServers": [{ "url": "stun:stun.l.google.com:19302" }] };
     this.servers = null;
@@ -5,28 +10,29 @@ var Socket = function () {
     
     this.localPeerConnection = new webkitRTCPeerConnection(this.servers,
         {
-            optional: [
-                {
-                    RtpDataChannels: true
-                }
-            ]
+//            optional: [
+//                {
+//                    RtpDataChannels: true
+//                }
+//            ]
         });
     
     this.remotePeerConnection = new webkitRTCPeerConnection(this.servers,
         {
-            optional: [
-                {
-                    RtpDataChannels: true
-                }
-            ]
+//            optional: [
+//                {
+//                    RtpDataChannels: true
+//                }
+//            ]
         });
     
     this.sendChannel = null;
     this.receiveChannel = null;
+    this.readyState = null;
 };
 
 Socket.prototype.trace = function (text) {
-    console.log((performance.now() / 1000).toFixed(3) + ": " + text);
+    //console.log((performance.now() / 1000).toFixed(3) + ": " + text);
 }
 
 Socket.prototype.connect = function () {
@@ -58,9 +64,16 @@ Socket.prototype.connect = function () {
     this.localPeerConnection.createOffer(this.gotLocalDescription.bind(this));
 }
 
-Socket.prototype.send = function (data) {
-    this.sendChannel.send(data);
-    this.trace('Sent data: ' + data);
+Socket.prototype.send = function (key, data) {
+    if (this.readyState == 'open') {
+        try {
+            console.log(data);
+            this.sendChannel.send(data);
+            this.trace('Sent data: ' + data);
+        } catch (e) {
+            this.trace(e.message);    
+        }
+    }
 }
 
 Socket.prototype.closeDataChannels = function () {
@@ -115,11 +128,18 @@ Socket.prototype.gotReceiveChannel = function (event) {
 
 Socket.prototype.handleMessage = function (event) {
     this.trace('Received message: ' + event.data);
+    var receiveCanvas = document.querySelector('#receiveCanvas');
+    
+    var image = new Image();
+    image.src = event.data;
+    image.onload = function () {
+        receiveCanvas.getContext('2d').drawImage(this, 0, 0);    
+    };
 }
 
 Socket.prototype.handleSendChannelStateChange = function () {
-    var readyState = this.sendChannel.readyState;
-    this.trace('Send channel state is: ' + readyState);
+    this.readyState = this.sendChannel.readyState;
+    this.trace('Send channel state is: ' + this.readyState);
 }
 
 Socket.prototype.handleReceiveChannelStateChange = function () {
