@@ -2,6 +2,7 @@
  * SCTP is needed for binary files, it works on the following browsers:
  * - Chrome version: >= 31
  * - Firefox
+ * We enable SCTP by not giving any constraints
  */
 var Socket = function () {
     //this.servers = { "iceServers": [{ "url": "stun:stun.l.google.com:19302" }] };
@@ -67,7 +68,6 @@ Socket.prototype.connect = function () {
 Socket.prototype.send = function (key, data) {
     if (this.readyState == 'open') {
         try {
-            console.log(data);
             this.sendChannel.send(data);
             this.trace('Sent data: ' + data);
         } catch (e) {

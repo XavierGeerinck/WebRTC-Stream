@@ -74,8 +74,9 @@ Renderer.prototype.loop = function () {
 
 Renderer.prototype.sendToSocket = function () {
     // Get image data
-    var quality = 0.8;
-    var image = this.canvas.toDataURL('image/webp', quality);
+    var quality = 0.7;
+    var image = this.canvas.toDataURL('image/jpeg', quality);
+    //var image = this.canvas.getContext('2d').getImageData(0, 0, this.canvas.width, this.canvas.height);
     
 //    var image = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
 //    var buffer = new ArrayBuffer(image.data.length);
@@ -87,7 +88,7 @@ Renderer.prototype.sendToSocket = function () {
 //    var imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
 //    var binary = new Uint8Array(imageData.data.length);
 //    for (var i = 0; i < imageData.data.length; i++) {
-//      binary[i] = imageData.data[i];
+//        binary[i] = imageData.data[i];
 //    }
     
     // We can improve speed by stripping the alpha values from this array!
