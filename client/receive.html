@@ -12,50 +12,22 @@
 
 <body>
     <div id="actions">
-        <button onclick="receive()">receive()</button>
+        <button onclick="joinChannel('CHANNELA')">JoinChannel("CHANNELA")</button>
     </div>
     
-	<canvas id="canvas"></canvas>
+    <div id="interface">
+        <!-- Canvas Received -->
+        <canvas id="receiveCanvas"></canvas>
+    </div>
 <video />
 
 <!-- JavaScript will go here -->
-<script type="text/javascript" src="./js/lib/socket.io.min.js"></script>
-<script type="text/javascript">
-    function receive() {
-        var canvas = document.querySelector('#canvas');
-        canvas.height = 1080;
-        canvas.width = 1920;
-        var context = canvas.getContext('2d');
-        
-        var socket = io.connect('http://webrtc.api.localhost.com');
-        socket.on('stream', function (data) {
-            var bytes = new Uint8Array(data.image);
-            var image = context.createImageData(canvas.width, canvas.height);
-            for (var i=0; i<bytes.length; i++) {
-                image.data[i] = bytes[i];
-            }
-            context.putImageData(image, 0, 0);
-            
-            // Decode
-//            var bytes = new Uint8Array(data);
-//            
-//            var image = context.createImageData(canvas.width, canvas.height);
-//            for (var i=0; i<bytes.length; i++) {
-//                image.data[i] = bytes[i];
-//            }
-            
-            //console.log(image);
-            
-            // Draw
-//            var imageObj = new Image();
-//            imageObj.src = data.image.image;
-//            imageObj.onload = function() {
-//                context.drawImage(this, 0, 0);
-//            };
-            //context.putImageData(data.image, 0, 0);
-        });
-    }
-</script>
+<script src="http://www.rtcmulticonnection.org/latest.js"></script>
+    
+<script type="text/javascript" src="./js/lib/stats.min.js"></script>
+<script type="text/javascript" src="./js/mainLoop.js"></script>
+<script type="text/javascript" src="./js/connection/rtcmulti.js"></script>
+<script type="text/javascript" src="./js/receive.js"></script>
 
 </body>
 

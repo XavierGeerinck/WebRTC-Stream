@@ -12,9 +12,14 @@
 
 <body>
     <div id="actions">
+        <button onclick="openChannel('CHANNELA')">OpenChannel("CHANNELA")</button>
+        <button onclick="joinChannel('CHANNELA')">JoinChannel("CHANNELA")</button>
+        
+        <!--<button onclick="connect()">connect()</button>
+        <button onclick="startReceiving()">startReceiving()</button>
         <button onclick="startStreaming()">startStreaming()</button>
         <button onclick="stopStreaming()">stopStreaming()</button>
-        <button onclick="stop()">stop()</button>
+        <button onclick="stop()">stop()</button>-->
         <button onclick="addWebcam()">addWebcam()</button>
         <button onclick="addOverlay()">addOverlay()</button>
         <button onclick="addLeagueOfLegends1Overlay()">addLeagueOfLegends1Overlay()</button>
@@ -31,11 +36,12 @@
 <video />
 
 <!-- JavaScript will go here -->
+<script src="http://www.rtcmulticonnection.org/latest.js"></script>
 <script type="text/javascript" src="./js/lib/socket.io.min.js"></script>
 <script type="text/javascript" src="./js/lib/stats.min.js"></script>
 <script type="text/javascript" src="./js/lib/screen.js"></script>
-<script type="text/javascript" src="./js/renderer.js"></script>
-<script type="text/javascript" src="./js/socket.js"></script>
+<script type="text/javascript" src="./js/connection/rtcmulti.js"></script>
+<script type="text/javascript" src="./js/mainLoop.js"></script>
 <script type="text/javascript" src="./js/webcam.js"></script>
 <script type="text/javascript" src="./js/overlay.js"></script>
 <script type="text/javascript" src="./js/index.js"></script>

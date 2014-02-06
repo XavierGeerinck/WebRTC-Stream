@@ -5,8 +5,8 @@
  * We enable SCTP by not giving any constraints
  */
 var Socket = function () {
-    //this.servers = { "iceServers": [{ "url": "stun:stun.l.google.com:19302" }] };
-    this.servers = null;
+    this.servers = { "iceServers": [{ "url": "stun:stun.l.google.com:19302" }] };
+    //this.servers = null;
     this.ready = false;
     
     this.localPeerConnection = new webkitRTCPeerConnection(this.servers,
@@ -33,7 +33,7 @@ var Socket = function () {
 };
 
 Socket.prototype.trace = function (text) {
-    //console.log((performance.now() / 1000).toFixed(3) + ": " + text);
+    console.log((performance.now() / 1000).toFixed(3) + ": " + text);
 }
 
 Socket.prototype.connect = function () {
