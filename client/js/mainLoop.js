@@ -20,3 +20,7 @@ MainLoop.prototype.joinChannel = function (channelId) {
 MainLoop.prototype.openChannel = function (channelId) {
     this.connection.openChannel(channelId);
 };
+
+MainLoop.prototype.sendMessage = function (message) {
+    this.connection.sendMessage(message);
+};

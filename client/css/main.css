@@ -1,24 +1,63 @@
 html {
+    height: 100%;
+    width: 100%;
     margin: 0;
     padding: 0;
 }
 
 body {
+    height: 100%;
+    width: 100%;
     padding: 0;
     margin: 0;
 }
 
-#interface {
-    margin-left: 250px;
+#wrapper {
+    height: 100%;
+    background-color: #202020;
+    width: 80%;
+    margin: 0 auto;
 }
 
-#actions {
-    position: absolute;
-    left: 0;
-    top: 50%;
-    margin-top: -200px;
-    
-    height: 300px;
-    width: 200px;
-    background-color: black;
+#chat {
+    float: left;
+    height: 100%;
+    width: 60%;
+}
+
+#chat #receivedMessages {
+    height: 90%;
+    background-color: #EEEEEE;
+    overflow: auto;
+}
+
+#chat #composeMessage {
+    height: 10%;
+}
+
+#chat #composeMessage #chatInput {
+    margin: 10px 0 10px 10px;
+    height: 70%;
+    width: 70%;
+    border: 1px solide #202020;
+    padding: 0;
+    float: left;
+}
+
+#chat #composeMessage #btnSendMessage {
+    float: right;
+    height: 75%;
+    width: 22%;
+    margin: 10px 0 10px 10px;
+}
+
+.clear {
+    clear: both;
+}
+
+#webcam {
+    background-color: #FFF;
+    width: 39%;
+    height: 100%;
+    float: right;
 }

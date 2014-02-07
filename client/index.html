@@ -11,41 +11,40 @@
 </head>
 
 <body>
+    <div id="wrapper">
+        <aside id="chat">
+            <div id="receivedMessages"></div>
+            
+            <div id="composeMessage">
+                <input id="chatInput" type="text" />
+                <button id="btnSendMessage" onclick="sendMessage()">Send</button>
+            </div>
+            
+            <div class="clear"></div>
+        </aside>
+        
+        <aside id="webcam">
+            <video id="webcam-video" autoplay controls></video>
+        </aside>
+        
+        <div class="clear"></div>
+    </div>
+    
     <div id="actions">
         <button onclick="openChannel('CHANNELA')">OpenChannel("CHANNELA")</button>
         <button onclick="joinChannel('CHANNELA')">JoinChannel("CHANNELA")</button>
-        
-        <!--<button onclick="connect()">connect()</button>
-        <button onclick="startReceiving()">startReceiving()</button>
-        <button onclick="startStreaming()">startStreaming()</button>
-        <button onclick="stopStreaming()">stopStreaming()</button>
-        <button onclick="stop()">stop()</button>-->
-        <button onclick="addWebcam()">addWebcam()</button>
-        <button onclick="addOverlay()">addOverlay()</button>
-        <button onclick="addLeagueOfLegends1Overlay()">addLeagueOfLegends1Overlay()</button>
-        <button onclick="addLeagueOfLegends2Overlay()">addLeagueOfLegends2Overlay()</button>
     </div>
-    
-    <div id="interface">
-        <!-- Canvas To Send -->
-        <canvas id="sendCanvas"></canvas>
-        
-        <!-- Canvas Received -->
-        <canvas id="receiveCanvas"></canvas>
-    </div>
-<video />
 
-<!-- JavaScript will go here -->
-<script src="http://www.rtcmulticonnection.org/latest.js"></script>
-<script type="text/javascript" src="./js/lib/socket.io.min.js"></script>
-<script type="text/javascript" src="./js/lib/stats.min.js"></script>
-<script type="text/javascript" src="./js/lib/screen.js"></script>
-<script type="text/javascript" src="./js/connection/rtcmulti.js"></script>
-<script type="text/javascript" src="./js/mainLoop.js"></script>
-<script type="text/javascript" src="./js/webcam.js"></script>
-<script type="text/javascript" src="./js/overlay.js"></script>
-<script type="text/javascript" src="./js/index.js"></script>
-
+    <!-- JavaScript will go here -->
+    <script src="http://www.rtcmulticonnection.org/latest.js"></script>
+    <script type="text/javascript" src="./js/lib/socket.io.min.js"></script>
+    <script type="text/javascript" src="./js/lib/stats.min.js"></script>
+    <script type="text/javascript" src="./js/lib/screen.js"></script>
+    <script type="text/javascript" src="./js/connection/rtcmulti.js"></script>
+    <script type="text/javascript" src="./js/mainLoop.js"></script>
+    <script type="text/javascript" src="./js/webcam.js"></script>
+    <script type="text/javascript" src="./js/overlay.js"></script>
+    <script type="text/javascript" src="./js/index.js"></script>
 </body>
 
 </html>

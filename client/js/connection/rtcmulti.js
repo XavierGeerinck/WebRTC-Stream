@@ -20,6 +20,11 @@ var RTCMulti = function () {
     this.connection.onstream = this.handleStream.bind(this);
     this.connection.onopen = this.handleChannelOpened.bind(this);
     this.connection.onerror = this.handleError.bind(this);
+    this.connection.onmessage = this.handleMessage.bind(this);
+};
+
+RTCMulti.prototype.sendMessage = function (msg) {
+    this.connection.send(msg);
 };
 
 /**
@@ -46,6 +51,11 @@ RTCMulti.prototype.handleError = function (e) {
 
 RTCMulti.prototype.handleStream = function (e) {
     if (e.type === 'remote') {
-        document.body.appendChild(e.mediaElement);
+        console.log(e.mediaElement.src);
+        document.getElementById('webcam-video').src = e.mediaElement.src;
     }
+};
+
+RTCMulti.prototype.handleMessage = function (e) {
+    document.getElementById('receivedMessages').innerHTML = document.getElementById('receivedMessages').innerHTML + '<br />' + e.data;
 };
