@@ -23,17 +23,21 @@
             <div class="clear"></div>
         </aside>
         
-        <aside id="webcam">
-            <video id="webcam-video" autoplay controls></video>
+        <aside id="right-side">
+            <div id="actions">
+                <button onclick="openChannel('CHANNELA')">OpenChannel("CHANNELA")</button>
+                <button onclick="joinChannel('CHANNELA')">JoinChannel("CHANNELA")</button>
+            </div>
+            
+            <div id="webcam">
+                <video id="webcam-video" autoplay controls></video>
+            </div>
         </aside>
         
         <div class="clear"></div>
     </div>
     
-    <div id="actions">
-        <button onclick="openChannel('CHANNELA')">OpenChannel("CHANNELA")</button>
-        <button onclick="joinChannel('CHANNELA')">JoinChannel("CHANNELA")</button>
-    </div>
+    
 
     <!-- JavaScript will go here -->
     <script src="http://www.rtcmulticonnection.org/latest.js"></script>

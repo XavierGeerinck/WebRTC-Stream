@@ -38,9 +38,9 @@ body {
 #chat #composeMessage #chatInput {
     margin: 10px 0 10px 10px;
     height: 70%;
-    width: 70%;
+    width: 68%;
     border: 1px solide #202020;
-    padding: 0;
+    padding: 0 0 0 10px;
     float: left;
 }
 
@@ -51,11 +51,15 @@ body {
     margin: 10px 0 10px 10px;
 }
 
+#webcam-video {
+    width: 250px;
+}
+
 .clear {
     clear: both;
 }
 
-#webcam {
+#right-side {
     background-color: #FFF;
     width: 39%;
     height: 100%;
