@@ -11,26 +11,28 @@
 </head>
 
 <body>
-    <div id="wrapper">
-        <aside id="chat">
-            <div id="receivedMessages"></div>
-            
-            <div id="composeMessage">
-                <input id="chatInput" type="text" />
-                <button id="btnSendMessage" onclick="sendMessage()">Send</button>
-            </div>
-            
-            <div class="clear"></div>
+    <div id="wrapper">  
+        <aside id="left-side">
+            <div id="currently-speaking"></div>
         </aside>
-        
+
         <aside id="right-side">
             <div id="actions">
                 <button onclick="joinChannel('CHANNELA')">JoinChannel("CHANNELA")</button>
             </div>
             
-            <div id="webcam">
-                <video id="webcam-video" autoplay controls></video>
-            </div>
+            <div id="clients"></div>
+            
+            <aside id="chat">
+                <ul id="messages"></ul>
+
+                <div id="composeMessage">
+                    <input id="chatInput" type="text" />
+                    <button id="btnSendMessage" onclick="sendMessage()">Send</button>
+                </div>
+
+                <div class="clear"></div>
+            </aside>
         </aside>
         
         <div class="clear"></div>

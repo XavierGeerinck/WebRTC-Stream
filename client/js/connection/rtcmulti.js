@@ -1,7 +1,8 @@
 var RTCMulti = function () {
     this.connection = new RTCMultiConnection();
     
-    this.connection.direction = "one-to-many";
+    // If one to many, then the host gets all connections
+    this.connection.direction = "many-to-many";
     this.connection.maxParticipantsAllowed = 10;
     this.connection.session = {
         data: true,
@@ -36,7 +37,9 @@ RTCMulti.prototype.openChannel = function (channelId) {
 
 RTCMulti.prototype.joinChannel = function (channelId) {
     this.connection.connect(channelId);
-    this.connection.dontAttachStream = true;
+    
+    // Do not attach the client stream
+    //this.connection.dontAttachStream = true;
 };
 
 /**
@@ -50,12 +53,35 @@ RTCMulti.prototype.handleError = function (e) {
 };
 
 RTCMulti.prototype.handleStream = function (e) {
-    if (e.type === 'remote') {
-        console.log(e.mediaElement.src);
-        document.getElementById('webcam-video').src = e.mediaElement.src;
+    if (e.type === 'remote') {  
+    var nameElement = document.createElement('div');
+    nameElement.setAttribute('class', 'webcamName');
+    nameElement.innerHTML = 'Name: ' + e.userid;
+    
+    // Append the new elements
+    document.getElementById('clients').appendChild(nameElement);
+    document.getElementById('clients').appendChild(e.mediaElement);
+    }
+    
+        if (e.type === 'local') {  
+    var nameElement = document.createElement('div');
+    nameElement.setAttribute('class', 'webcamName');
+    nameElement.innerHTML = 'Name: ' + e.userid;
+    
+    // Append the new elements
+    document.getElementById('currently-speaking').appendChild(nameElement);
+    document.getElementById('currently-speaking').appendChild(e.mediaElement);
     }
 };
 
 RTCMulti.prototype.handleMessage = function (e) {
-    document.getElementById('receivedMessages').innerHTML = document.getElementById('receivedMessages').innerHTML + '<br />' + e.data;
+    var date = new Date();
+    
+    // Set as day/month/year
+    var date_formatted = date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear()
+    var newLi = document.createElement('li');
+    newLi.innerHTML = '[' + date_formatted + ']' + '[' + e.userid + ']' + e.data;
+    
+    // Append
+    document.getElementById('messages').appendChild(newLi);
 };

@@ -10,58 +10,119 @@ body {
     width: 100%;
     padding: 0;
     margin: 0;
+    font-family: 'Verdana', 'Open-Sans', 'Helvetica';
+    font-size: 12px;
 }
 
 #wrapper {
     height: 100%;
     background-color: #202020;
-    width: 80%;
+    width: 100%;
     margin: 0 auto;
 }
 
-#chat {
-    float: left;
+#right-side {
+    width: 270px;
+    background-color: #FFF;
     height: 100%;
-    width: 60%;
+    float: right;
+    position: relative;
 }
 
-#chat #receivedMessages {
-    height: 90%;
-    background-color: #EEEEEE;
+#right-side button {
+    border: none;
+    width: 100%;
+    padding: 10px 5px;
+    margin: 0 0 5px 0;
+}
+
+#right-side button:hover {
+    background-color: #999;
+    cursor: pointer;
+}
+
+#right-side #webcams {
+    width: 270px;
+}
+
+#right-side #chat {
+    position: absolute;
+    height: 200px;
+    background-color: #202020;
+    width: 100%;
+    bottom: 0;
+}
+
+#right-side #chat #messages {
+    margin: 0;
+    border-top: 1px solid #CCC;
+    height: 85%;
+    background-color: #DDD;
     overflow: auto;
 }
 
-#chat #composeMessage {
-    height: 10%;
+#right-side #chat #messages {
+    margin: 0;
+    padding: 0;
 }
 
-#chat #composeMessage #chatInput {
-    margin: 10px 0 10px 10px;
-    height: 70%;
-    width: 68%;
+#right-side #chat #messages li {
+    list-style: none;
+    padding: 5px 10px;
+    background-color: #BBB;
+}
+
+#right-side #chat #messages li:nth-child(odd) {
+    background-color: #CCC;
+}
+
+#right-side #chat #composeMessage {
+    height: 15%;
+}
+
+#right-side #chat #composeMessage #chatInput {
     border: 1px solide #202020;
     padding: 0 0 0 10px;
     float: left;
+    
+    border: none;
+    padding: 0;
+    margin: 0;
+    
+    height: 100%;
+    width: 70%;
 }
 
-#chat #composeMessage #btnSendMessage {
+#right-side #chat #composeMessage #btnSendMessage {
     float: right;
-    height: 75%;
-    width: 22%;
-    margin: 10px 0 10px 10px;
+    height: 100%;
+    width: 30%;
+    border: none;
+    padding: 0;
+    margin: 0;
 }
 
-#webcam-video {
-    width: 250px;
+#clients video {
+    width: 270px;
 }
 
 .clear {
     clear: both;
 }
 
-#right-side {
-    background-color: #FFF;
-    width: 39%;
-    height: 100%;
-    float: right;
+.webcamName {
+    padding: 6px 10px;
+    background-color: #AAA;
+    color: #444;
+}
+
+#left-side {
+    float: left;
+}
+
+#left-side currently-speaking {
+    margin: 0 auto;
+}
+#currently-speaking video {
+
 }
